@@ -2,5 +2,5 @@
 
 __Integrantes:__
 
-- Felipe Gil Laverde
-- Juan Sebastian Diaz Peña
+- Juan Sebastian Diaz Peña 
+- 20232020071
