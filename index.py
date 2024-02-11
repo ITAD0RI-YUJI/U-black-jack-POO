@@ -21,7 +21,7 @@ def nombrePC():
 nombreUsuario = input("\n• Nombre del usuario: ")
 nombresPCArray = ["Itadori" , "Naruto" , "Moa-metal" , "Momo-metal" , "Su-metal"]
 
-valNumerico = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "AS"]
+valNumerico = [str(i) for i in range(2 , 11)] + ["J", "Q", "K", "AS"]
 valSimbolo = ["♣", "♥", "♠", "♦"]
 
 nombrePCPartida = nombrePC() # Eligiendo el nombre del pc
@@ -30,7 +30,7 @@ cartasFormadas = [(num , sim) for num in valNumerico for sim in valSimbolo] #Lis
 
 for carta in cartasFormadas:
     numero, simbolo = carta
-    #print(f"{numero}{simbolo}") # Para que sea "2 ♥" en lugar de "(2, ' ♣')", usar la función f-string en Python. permite formatear cadenas de forma dinámica.
+    print(f"{numero}{simbolo}") # Para que sea "2 ♥" en lugar de "(2, ' ♣')", usar la función f-string en Python. permite formatear cadenas de forma dinámica.
 
 mazoJugador = [] 
 mazoCompu = []
