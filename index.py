@@ -3,6 +3,11 @@ import random
 valNumerico = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "AS"]
 valSimbolo = [" ♣", " ♥", " ♠", " ♦"]
 
+def cartaRandom():
+    cartaAleatoria = random.choice(range(len(cartasFormadas))) 
+    carta = print(f"Carta: {cartasFormadas[cartaAleatoria]}")
+    return carta
+
 cartasFormadas = [(num , sim) for num in valNumerico for sim in valSimbolo] #Lista por compresnsión (acá formamos todas las tarjetas)
 
 for carta in cartasFormadas:
@@ -13,8 +18,5 @@ for carta in cartasFormadas:
 mazoJugador = [] #colocar función para que escoja número random (posiciones) de las cartas ya formadas
 mazoCompu = []
 
-cartaAleatoriaUno = random.choice(range(len(cartasFormadas))) # el "len()" es como el .lenght en JS
-cartaAleatoriaDos = random.choice(range(len(cartasFormadas))) 
-
-print(f"Carta: {cartasFormadas[cartaAleatoriaUno]}")
-print(f"Carta: {cartasFormadas[cartaAleatoriaDos]}")
+carta = cartaRandom()
+carta = cartaRandom()
