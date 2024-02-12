@@ -5,9 +5,26 @@ def cartaRandom():
     cartasFormadas.pop(cartaAleatoria) 
     return cartasFormadas[cartaAleatoria]
 
-def mostrarMazo(dueño):
-    for mazo in dueño:
+def mostrarMazo(propietario):
+    for mazo in propietario:
         print(mazo)
+
+def repartirCartas():
+    for contador in range(4):
+        cartaSelec = cartaRandom()
+        if(contador < 2):
+            mazoJugador.append(cartaSelec)
+        else:
+            mazoCompu.append(cartaSelec)
+
+    contador += 1
+
+def repartirNuevaCarta(mazo):
+    cartaSelec = cartaRandom()
+    nuevoMazo = mazo[:] # Copia la lista original
+    nuevoMazo.append(cartaSelec)
+    return nuevoMazo
+
 
 def sumarNumerosMazo(mazo):
     suma = 0
@@ -44,20 +61,34 @@ for carta in cartasFormadas:
 mazoJugador = [] 
 mazoCompu = []
 
-for contador in range(4):
-    cartaSelec = cartaRandom()
-    if(contador < 2):
-        mazoJugador.append(cartaSelec)
-    else:
-        mazoCompu.append(cartaSelec)
-
-    contador += 1
-
 print("\n• Cartas en el mazo de" , nombreUsuario , ": ")
-mostrarMazo(mazoJugador)
-print("\n• La suma de tu mazo es: ", sumarNumerosMazo(mazoJugador))
 
-print("\n• El mazo del", nombrePCPartida ,"se podrá ver al final de las partida")
+turno = 0
+contador = 0
 
-print("\n• Cartas en el mazo de ", nombrePCPartida, ":")
-mostrarMazo(mazoCompu)
+repartirCartas()
+
+while True:
+    if turno == 0:
+        while True:
+            mostrarMazo(mazoJugador)
+            print("\n• La suma de tu mazo es: ", sumarNumerosMazo(mazoJugador))
+            agregarCarta = input("¿Quieres agregar otra carta a tu mazo?: ")
+
+            if agregarCarta == "no":
+                break
+
+            if agregarCarta != "no" and contador > 10:
+                repartirNuevaCarta(mazoJugador)
+                break
+            # break
+
+    else:
+        print("\n• El mazo del", nombrePCPartida ,"se podrá ver al final de las partida")
+
+        print("\n• Cartas en el mazo de ", nombrePCPartida, ":")
+        mostrarMazo(mazoCompu)
+        print("\n• La suma de ", nombrePCPartida, " mazo es: ", sumarNumerosMazo(mazoCompu))
+        # break
+
+    turno = (turno + 1) % 2
