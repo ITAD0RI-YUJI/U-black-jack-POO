@@ -3,16 +3,26 @@ import random
 def cartaRandom():
     cartaAleatoria = random.choice(range(len(cartasFormadas)))
     cartasFormadas.pop(cartaAleatoria) 
-    # carta = print(f"Carta: {cartasFormadas[cartaAleatoria]}")
     return cartasFormadas[cartaAleatoria]
 
-def mostrarMazoUsu():
-    for mazo in mazoJugador:
+def mostrarMazo(dueño):
+    for mazo in dueño:
         print(mazo)
 
-def mostrarMazoPc():
-    for mazo in mazoCompu:
-        print(mazo)
+def sumarNumerosMazo(mazo):
+    suma = 0
+    for carta in mazo:
+        numero, _ = carta  # Desempaqueta solo el número, el símbolo no es necesario
+
+        if numero.isdigit():  # Comprueba si el número es un dígito
+            suma += int(numero)  # Suma solo si es un dígito
+        elif numero == "J" or numero == "Q" or numero == "K":
+            suma += 10
+        elif numero == "AS":
+            valorAS = int(input("• Tienes un 'AS' cuánto quieres que valga? 11 o 1?: "))
+            suma += valorAS
+
+    return suma
 
 def nombrePC():
     nombreAleatorioPc = random.choice(range(len(nombresPCArray)))    
@@ -30,7 +40,6 @@ cartasFormadas = [(num , sim) for num in valNumerico for sim in valSimbolo] #Lis
 
 for carta in cartasFormadas:
     numero, simbolo = carta
-    print(f"{numero}{simbolo}") # Para que sea "2 ♥" en lugar de "(2, ' ♣')", usar la función f-string en Python. permite formatear cadenas de forma dinámica.
 
 mazoJugador = [] 
 mazoCompu = []
@@ -45,9 +54,10 @@ for contador in range(4):
     contador += 1
 
 print("\n• Cartas en el mazo de" , nombreUsuario , ": ")
-mostrarMazoUsu()
+mostrarMazo(mazoJugador)
+print("\n• La suma de tu mazo es: ", sumarNumerosMazo(mazoJugador))
 
 print("\n• El mazo del", nombrePCPartida ,"se podrá ver al final de las partida")
 
-# print("\n• Cartas en el mazo del computador:")
-# mostrarMazoPc()
+print("\n• Cartas en el mazo de ", nombrePCPartida, ":")
+mostrarMazo(mazoCompu)
