@@ -1,94 +1,110 @@
-import random
+import random 
 
-def cartaRandom():
-    cartaAleatoria = random.choice(range(len(cartasFormadas)))
-    cartasFormadas.pop(cartaAleatoria) 
-    return cartasFormadas[cartaAleatoria]
+# funciones del proyecto 
+def nombrePcFunction():
+    nombrePcAleatorio = random.choice(range(len(nombrePcArray)))
+    return nombrePcArray[nombrePcAleatorio]
 
-def mostrarMazo(propietario):
-    for mazo in propietario:
-        print(mazo)
+def repartirCartas(mazo):
+    for i in range(2):
+        indiceAleatorio = random.choice(range(len(cartasJuego)))
+        cartasJuego.pop(indiceAleatorio)
+        mazo.append(cartasJuego[indiceAleatorio])
+        
+    i += 1
 
-def repartirCartas():
-    for contador in range(4):
-        cartaSelec = cartaRandom()
-        if(contador < 2):
-            mazoJugador.append(cartaSelec)
-        else:
-            mazoCompu.append(cartaSelec)
+def agregarCartaFunction(mazo):
+    for i in range(1):
+        indiceAleatorio = random.choice(range(len(cartasJuego)))
+        cartasJuego.pop(indiceAleatorio)
+        mazo.append(cartasJuego[indiceAleatorio])
+        
+    i += 1
 
-    contador += 1
+def sumaMazo(mazo):
+    puntos = 0
 
-def repartirNuevaCarta(mazo):
-    cartaSelec = cartaRandom()
-    nuevoMazo = mazo[:] # Copia la lista original
-    nuevoMazo.append(cartaSelec)
-    return nuevoMazo
-
-
-def sumarNumerosMazo(mazo):
-    suma = 0
     for carta in mazo:
-        numero, _ = carta  # Desempaqueta solo el número, el símbolo no es necesario
+        num , _ = carta
 
-        if numero.isdigit():  # Comprueba si el número es un dígito
-            suma += int(numero)  # Suma solo si es un dígito
-        elif numero == "J" or numero == "Q" or numero == "K":
-            suma += 10
-        elif numero == "AS":
-            valorAS = int(input("• Tienes un 'AS' cuánto quieres que valga? 11 o 1?: "))
-            suma += valorAS
+        if num.isdigit():
+            puntos += int(num)
+        elif num == "J" or num == "Q" or num == "K":
+            puntos += 10
+        else:
+            if puntos > 10 and num == "A":
+                puntos += 1
+            else:
+                puntos += 11
+    
+    return puntos
 
-    return suma
+def mostrarMazo(mazo):
+    for i in mazo:
+        print(i)
 
-def nombrePC():
-    nombreAleatorioPc = random.choice(range(len(nombresPCArray)))    
-    return nombresPCArray[nombreAleatorioPc]
+def compararFunction(sumaUsu , sumaPc):
+    if sumaPc > sumaUsu and sumaPc <= 21:
+        print("\n• El ganador es ", nombrePcPartida)
+    
+    elif sumaUsu > sumaPc and sumaUsu <= 21:
+        print("\n• El ganador es ", nombreUsuario)
 
-nombreUsuario = input("\n• Nombre del usuario: ")
-nombresPCArray = ["Itadori" , "Naruto" , "Moa-metal" , "Momo-metal" , "Su-metal"]
+    else:
+        print("\n• No hay Ganador")
+    
 
-valNumerico = [str(i) for i in range(2 , 11)] + ["J", "Q", "K", "AS"]
-valSimbolo = ["♣", "♥", "♠", "♦"]
+valNumericos = [str(i) for i in range(2 , 11)] + ["J", "Q", "K", "A"]
+valSimbolos = ["♣", "♥", "♠", "♦"]
+cartasJuego = [(num , simb) for num in valNumericos for simb in valSimbolos]
 
-nombrePCPartida = nombrePC() # Eligiendo el nombre del pc
+mazoJugador = []
+mazoComputador = []
 
-cartasFormadas = [(num , sim) for num in valNumerico for sim in valSimbolo] #Lista por compresnsión (acá formamos todas las tarjetas)
+nombrePcArray = ["Moa-metal" , "Momo-metal" , "Su-metal"]
 
-for carta in cartasFormadas:
-    numero, simbolo = carta
+nombreUsuario = input("Ingresa tu nombre de usuario: ")
+nombrePcPartida = nombrePcFunction()
 
-mazoJugador = [] 
-mazoCompu = []
+print("\nJugadores: \n","•",nombreUsuario, "\n" ,"•",nombrePcPartida)
 
-print("\n• Cartas en el mazo de" , nombreUsuario , ": ")
+repartirCartas(mazoJugador)
+repartirCartas(mazoComputador)
 
 turno = 0
-contador = 0
-
-repartirCartas()
+pcPlantada = False
+usuarioPlantado = False
+sumaMazoPc = 0
+sumaUsuario = 0
 
 while True:
     if turno == 0:
         while True:
+            print("\nEl mazo de", nombreUsuario, "está compuesto por:")
             mostrarMazo(mazoJugador)
-            print("\n• La suma de tu mazo es: ", sumarNumerosMazo(mazoJugador))
-            agregarCarta = input("¿Quieres agregar otra carta a tu mazo?: ")
+            sumaUsuario = sumaMazo(mazoJugador)
+            print("La suma del mazo es: ", sumaUsuario)
 
-            if agregarCarta == "no":
+            agregarCarta = input("\n¿Quieres agregar una carta a tu mazo? ")
+            if agregarCarta == "no" or agregarCarta == "NO":
+                usuarioPlantado = True
                 break
-
-            if agregarCarta != "no" and contador > 10:
-                repartirNuevaCarta(mazoJugador)
+            if agregarCarta != "no":
+                agregarCartaFunction(mazoJugador)
                 break
-            # break
-
     else:
-        print("\n• El mazo del", nombrePCPartida ,"se podrá ver al final de las partida")
+        print("\nEl mazo de", nombrePcPartida, "está compuesto por:")
+        mostrarMazo(mazoComputador)
 
-        print("\n• Cartas en el mazo de ", nombrePCPartida, ":")
-        mostrarMazo(mazoCompu)
-        print("\n• La suma de ", nombrePCPartida, " mazo es: ", sumarNumerosMazo(mazoCompu))
-        # break
+        sumaMazoPc = sumaMazo(mazoComputador)
+        if sumaMazoPc <= 16:
+            agregarCartaFunction(mazoComputador)
+            print("La suma del mazo es: ", sumaMazoPc)
+        else:
+            pcPlantada = True
+            print("La suma del mazo es: ", sumaMazoPc)
+    
+    if pcPlantada == True and usuarioPlantado == True:
+        compararFunction(sumaUsuario , sumaMazoPc)
 
     turno = (turno + 1) % 2
